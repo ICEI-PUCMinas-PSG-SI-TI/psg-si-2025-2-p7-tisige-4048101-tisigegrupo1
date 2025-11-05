@@ -1,13 +1,71 @@
-## Entregas da Sprint 1 por Integrante (Grupo 1 - Boteco do Morcego)
+## Project info
 
-| Integrante | Requisito Funcional (RF) | Resumo da Entrega | Dependência/Observação |
-| :--- | :--- | :--- | :--- |
-| **Carlos Daniel Fraga** | **RF1** - Check-in de Cliente | Implementar o formulário de registro (nome, sobrenome, telefone) e a criação da entrada na tabela `table_client_session`. | Depende do sistema de geração de QR codes ativo e do BD disponível. |
-| **Daniel Almeida Lopes** | **RF2** - Registro da Mesa | Implementar a tela para o cliente inserir o número da mesa, fornecendo feedback de sucesso e tratando erros de dados inválidos. | Depende diretamente da conclusão do **RF1** - Check-in de Cliente. |
-| **Lucas dos Santos Lima** | **RF3** - Consentimento LGPD Granular | Implementar as *checkboxes* de consentimento (marketing e fidelidade) e salvar os dados do consentimento com os campos obrigatórios (`consent_type`, `granted`, `timestamp`, `ip`, `policy_version`). | Depende do **RF1** - Check-in do cliente (tela de cadastro). |
-| **Lucas dos Santos Lima** | **RF6** - Centro de Privacidade do Titular | Implementar uma tela para o cliente ver/alterar seus consentimentos, exportar seus dados (JSON/CSV) e solicitar a eliminação de dados. Ao solicitar a eliminação, a conta deve ser marcada para anonimização automática via *job*. |
-| **Diogo Padoveis Antunes** | **RF4** - Abertura e Fechamento de Sessão da Mesa | Implementar a criação automática da `table_session` ao abrir uma mesa (status **OPEN** $\rightarrow$ **ACTIVE**) e o controle das transições de status válidas. | Depende do banco de dados com a tabela `table_session` configurada. |
-| **Carlos Daniel Fraga** | **RF5** - Vincular/Desvincular Participantes | Implementar a funcionalidade para adicionar/remover participantes da sessão ativa, garantindo a não duplicidade e utilizando *soft delete* (`removed_at`) ao remover. | Depende do BD ativo e das tabelas para `session_participants`. |
-| **Diego Reis Motta** | **RF9** - Notificação de Confirmação | Implementar o envio automático da notificação "Check-in confirmado na Mesa $X$" por e-mail ou WhatsApp, respeitando o opt-in/opt-out do cliente e utilizando um template versionado. | Depende do **RF1** - Check-in de Cliente. |
-| **Victor Távora Valadares Coelho** | **RF7** - Painel Operacional | Implementar o painel que lista mesas com status **ATIVA**, exibindo ocupação e tempo de permanência. | Depende do **RF4** (para status e tempo) e **RF5** (para ocupação). |
-| **Victor Távora Valadares Coelho** | **RF8** - Webhook/API de Eventos de Sessão | Implementar a lógica para publicar os eventos `session.opened`, `session.closed`, `participant.joined` e `participant.left` em um *endpoint* configurado, incluindo a estratégia de *retries* e a assinatura **HMAC**. | Depende do **RF4** (para eventos de sessão) e **RF5** (para eventos de participante). |
+**URL**: https://lovable.dev/projects/fd656936-b708-429c-b832-22af12fb3885
+
+## How can I edit this code?
+
+There are several ways of editing your application.
+
+**Use Lovable**
+
+Simply visit the [Lovable Project](https://lovable.dev/projects/fd656936-b708-429c-b832-22af12fb3885) and start prompting.
+
+Changes made via Lovable will be committed automatically to this repo.
+
+**Use your preferred IDE**
+
+If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+
+The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+
+Follow these steps:
+
+```sh
+# Step 1: Clone the repository using the project's Git URL.
+git clone <YOUR_GIT_URL>
+
+# Step 2: Navigate to the project directory.
+cd <YOUR_PROJECT_NAME>
+
+# Step 3: Install the necessary dependencies.
+npm i
+
+# Step 4: Start the development server with auto-reloading and an instant preview.
+npm run dev
+```
+
+**Edit a file directly in GitHub**
+
+- Navigate to the desired file(s).
+- Click the "Edit" button (pencil icon) at the top right of the file view.
+- Make your changes and commit the changes.
+
+**Use GitHub Codespaces**
+
+- Navigate to the main page of your repository.
+- Click on the "Code" button (green button) near the top right.
+- Select the "Codespaces" tab.
+- Click on "New codespace" to launch a new Codespace environment.
+- Edit files directly within the Codespace and commit and push your changes once you're done.
+
+## What technologies are used for this project?
+
+This project is built with:
+
+- Vite
+- TypeScript
+- React
+- shadcn-ui
+- Tailwind CSS
+
+## How can I deploy this project?
+
+Simply open [Lovable](https://lovable.dev/projects/fd656936-b708-429c-b832-22af12fb3885) and click on Share -> Publish.
+
+## Can I connect a custom domain to my Lovable project?
+
+Yes, you can!
+
+To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+
+Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
