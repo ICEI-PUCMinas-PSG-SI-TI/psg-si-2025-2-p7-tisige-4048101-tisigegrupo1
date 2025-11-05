@@ -46,4 +46,4 @@ Copie o conteúdo abaixo para o seu .env:
 VITE_SUPABASE_URL="[https://kaawfenarygpipzedaao.supabase.co](https://kaawfenarygpipzedaao.supabase.co)"
 VITE_SUPABASE_PUBLISHABLE_KEY="eyJhbGciOiJI..." # (Pegue a chave completa no Insomnia ou com o Lucas)
 Verifique se o tailwind.config.js existe. Se não, rode npx tailwindcss init -p.
-Execute npm run dev.
+Execute npm run dev.\

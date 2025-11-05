@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "files": [],
   "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
   "compilerOptions": {
@@ -13,4 +14,32 @@
     "noUnusedLocals": false,
     "strictNullChecks": false
   }
+=======
+  "compilerOptions": {
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "lib": ["dom", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "types": ["react", "react-dom"],
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "module": "esnext",
+    "resolveJsonModule": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",  // A partir da raiz do projeto
+    "paths": {
+      "@/*": ["src/*"]  // Alias para a pasta src
+    }
+  },
+  "include": [
+    "src/**/*",  // Inclui todos os arquivos dentro de src
+    "vite.config.ts"  // Inclui a configuração do Vite para garantir que TypeScript possa resolvê-lo
+  ],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+>>>>>>> 8f92bec9b88629fe024341da12ebad2101bbdd29
 }
