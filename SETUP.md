@@ -26,7 +26,9 @@ Não execute npm install manualmente. Nós criamos um script que automatiza todo
 
 Na pasta raiz do projeto, encontre o arquivo:
 
-run_project.batDê um clique duplo no arquivo run_project.bat para executar.
+SETUP.bat
+
+Dê um clique duplo no arquivo SETUP.bat para executar ou execute no CMD .\SETUP.bat
 
 O script fará o seguinte por você:
 [PASSO 1] Verifica se a pasta node_modules existe. Se não existir, ele executa o npm install automaticamente para baixar todas as dependências (React, Supabase, Tailwind, lovable-tagger, etc.).
@@ -37,7 +39,7 @@ O script fará o seguinte por você:
 
 Após o script terminar, o terminal mostrará que o servidor está rodando. Você pode acessar o projeto no seu navegador, geralmente no endereço:
 
-http://localhost:8080🐧 Usuários de Mac/Linux
+http://localhost:8080 Usuários de Mac/Linux
 
 O script .bat é exclusivo para Windows. Se você estiver usando macOS ou Linux, deverá seguir os passos manuais (que o script automatiza):
 Execute npm install.
