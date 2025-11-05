@@ -2,7 +2,7 @@
 
 Este é o repositório oficial para o Sistema de Gerenciamento de Restaurante.
 
-O sistema é construído com **React**, **TypeScript**, **Vite** e **Supabase** (conforme a DOCUMENTATION.md), com componentes de UI do **shadcn/ui** e **Tailwind CSS**.
+O sistema é construído com **React**, **TypeScript**, **Vite** e **Supabase** (conforme a descrito no README.md), com componentes de UI do **shadcn/ui** e **Tailwind CSS**.
 
 ## **Como Rodar o Projeto Localmente (Windows)**
 
