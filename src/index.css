@@ -1,171 +1,123 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Boteco Theme - Dark, fun and bar-themed design system */
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
 
 @layer base {
   :root {
-    /* Boteco Color Palette */
-    --background: 20 14% 8%;           /* Deep dark brown */
-    --foreground: 45 100% 85%;         /* Warm cream */
+    --background: 25 20% 97%;
+    --foreground: 25 25% 15%;
 
-    --card: 20 14% 12%;                /* Slightly lighter brown */
-    --card-foreground: 45 100% 85%;
+    --card: 0 0% 100%;
+    --card-foreground: 25 25% 15%;
 
-    --popover: 20 14% 10%;
-    --popover-foreground: 45 100% 85%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 25 25% 15%;
 
-    --primary: 39 100% 60%;            /* Golden amber (beer color) */
-    --primary-foreground: 20 14% 8%;
+    --primary: 25 95% 53%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 15 25% 25%;           /* Wood brown */
-    --secondary-foreground: 45 100% 85%;
+    --secondary: 25 30% 90%;
+    --secondary-foreground: 25 25% 15%;
 
-    --muted: 20 14% 15%;
-    --muted-foreground: 45 50% 65%;
+    --muted: 25 20% 94%;
+    --muted-foreground: 25 10% 45%;
 
-    --accent: 10 85% 55%;              /* Orange-red (bar lights) */
-    --accent-foreground: 45 100% 85%;
+    --accent: 35 100% 50%;
+    --accent-foreground: 0 0% 100%;
 
-    --success: 120 60% 50%;            /* Green for served items */
-    --success-foreground: 45 100% 85%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 45 100% 85%;
-
-    --border: 20 14% 20%;
-    --input: 20 14% 15%;
-    --ring: 39 100% 60%;
+    --border: 25 20% 88%;
+    --input: 25 20% 88%;
+    --ring: 25 95% 53%;
 
     --radius: 0.75rem;
-
-    /* Custom Boteco Colors */
-    --beer: 39 100% 60%;               /* Beer golden */
-    --beer-foam: 45 100% 95%;          /* Foam white */
-    --wood: 25 40% 30%;                /* Wood brown */
-    --neon: 280 100% 70%;              /* Purple neon */
-    --bar-light: 10 85% 55%;           /* Warm bar lighting */
     
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(39 100% 60%), hsl(45 80% 50%));
-    --gradient-dark: linear-gradient(180deg, hsl(20 14% 12%), hsl(20 14% 8%));
-    --gradient-neon: linear-gradient(45deg, hsl(280 100% 70%), hsl(320 100% 75%));
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
     
-    /* Shadows */
-    --shadow-warm: 0 10px 30px -10px hsl(39 100% 60% / 0.3);
-    --shadow-neon: 0 0 20px hsl(280 100% 70% / 0.4);
-  }
-}
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    
+    --kitchen-bg: 210 20% 98%;
+    --kitchen-card: 0 0% 100%;
 
-/* Components and utilities to give a Boteco look-and-feel */
-@layer components {
-  /* Primary button variant */
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem; /* gap-2 */
-    border-radius: var(--radius); /* rounded-lg */
-    padding: 0.5rem 1rem; /* py-2 px-4 */
-    font-weight: 600; /* font-semibold */
-    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--bar-light)));
-    color: hsl(var(--primary-foreground));
-    box-shadow: var(--shadow-warm);
-  }
+    --sidebar-background: 0 0% 98%;
 
-  .btn-ghost {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    border-radius: calc(var(--radius) * 0.75); /* rounded-md */
-    padding: 0.5rem 0.75rem; /* py-2 px-3 */
-    border: 1px solid hsl(var(--border));
-    color: hsl(var(--foreground));
-    background: transparent;
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
-  /* Card */
-  .card {
-    border-radius: var(--radius);
-    padding: 1rem; /* p-4 */
-    background-color: hsl(var(--card));
-    color: hsl(var(--card-foreground));
-    box-shadow: var(--shadow-warm);
-    border: 1px solid hsl(var(--border));
-  }
+  .dark {
+    --background: 25 25% 10%;
+    --foreground: 25 20% 95%;
 
-  .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem; /* gap-3 */
-    margin-bottom: 0.75rem; /* mb-3 */
-  }
+    --card: 25 20% 12%;
+    --card-foreground: 25 20% 95%;
 
-  .card-body {
-    /* vertical rhythm between children */
-    display: block;
-  }
+    --popover: 25 20% 12%;
+    --popover-foreground: 25 20% 95%;
 
-  .card-body > * + * {
-    margin-top: 0.75rem; /* space-y-3 */
-  }
+    --primary: 25 95% 53%;
+    --primary-foreground: 0 0% 100%;
 
-  /* Simple table styling */
-  .boteco-table {
-    width: 100%;
-    font-size: 0.875rem; /* text-sm */
-    border-collapse: separate; /* border-separate */
-    border-spacing: 0 0.5rem;
-  }
+    --secondary: 25 20% 18%;
+    --secondary-foreground: 25 20% 95%;
 
-  .boteco-table thead th {
-    text-align: left;
-    color: hsl(var(--muted-foreground));
-    text-transform: lowercase;
-    letter-spacing: 0.05em; /* tracking-wide */
-    font-size: 0.75rem; /* text-xs */
-    padding: 0.25rem 0.75rem; /* py-1 px-3 */
-  }
+    --muted: 25 15% 20%;
+    --muted-foreground: 25 10% 60%;
 
-  .boteco-row {
-    border-radius: var(--radius);
-    padding: 1rem;
-    background-color: hsl(var(--card));
-    color: hsl(var(--card-foreground));
-    box-shadow: var(--shadow-warm);
-    border: 1px solid hsl(var(--border));
-  }
-}
+    --accent: 35 100% 50%;
+    --accent-foreground: 0 0% 100%;
 
-@layer utilities {
-  .glass {
-    background: color-mix(in srgb, hsl(var(--card)) 80%, transparent 20%);
-    backdrop-filter: blur(6px);
-    border: 1px solid hsl(var(--border));
-  }
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 0 0% 100%;
 
-  .neon-outline {
-    box-shadow: 0 0 10px hsl(var(--neon) / 0.25), inset 0 0 4px hsl(var(--neon) / 0.12);
+    --border: 25 20% 20%;
+    --input: 25 20% 20%;
+    --ring: 25 95% 53%;
+    
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    
+    --kitchen-bg: 210 20% 12%;
+    --kitchen-card: 210 15% 15%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
 @layer base {
-  /* fallback: apply border color directly using the CSS variable
-     Some Tailwind setups (or plugin versions) may not generate the
-     `border-<color>` utilities for custom color names — using a
-     direct CSS declaration here ensures a consistent result. */
   * {
-    border-color: hsl(var(--border));
+    @apply border-border;
   }
 
   body {
-    /* use direct CSS fallback so this doesn't depend on Tailwind utility generation */
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
-    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    @apply bg-background text-foreground;
   }
 }
