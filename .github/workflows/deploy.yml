@@ -1,0 +1,71 @@
+# Arquivo de Workflow para GitHub Actions: Deploys de Vite para GitHub Pages
+
+name: Deploy Site Vite no GitHub Pages
+
+on:
+  # Roda toda vez que você der 'push' para a branch 'main'
+  push:
+    branches: [ "main" ]
+  # Permite que você rode este workflow manualmente pela aba Actions
+  workflow_dispatch:
+
+# Permissões necessárias para o deploy
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Permite apenas um deploy concorrente
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Job de "Build" (Construção)
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Baixa o código do seu repositório
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Configura o Node.js (necessário para o npm)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # Usa o Node.js v20
+          cache: 'npm'
+
+      # 3. Instala as dependências (igual ao seu .bat)
+      - name: Install dependencies
+        run: npm ci # 'ci' é mais rápido que 'install' para actions
+
+      # 4. Roda o Build (igual ao seu .bat, mas para produção)
+      # Isso vai ler seu vite.config.ts e criar a pasta /docs
+      - name: Build
+        run: npm run build
+
+      # 5. Prepara o "artefato" (a pasta /docs) para o deploy
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      
+      # 6. Faz o upload da pasta /docs
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Pasta que o 'npm run build' criou
+          path: './docs'
+
+  # Job de "Deploy" (Publicação)
+  deploy:
+    # Este job só roda *depois* que o 'build' terminar com sucesso
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # 1. Faz o deploy no GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
