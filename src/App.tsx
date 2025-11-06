@@ -15,13 +15,14 @@ import Unauthorized from "./pages/Unauthorized";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
+const repoName = "psg-si-2025-2-p7-tisige-4048101-tisigegrupo1";
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename={`/${repoName}`}>
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Index />} />
