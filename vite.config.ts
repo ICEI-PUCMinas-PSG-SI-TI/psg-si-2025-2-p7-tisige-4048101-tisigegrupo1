@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-   // 1. Define o caminho base (o nome do seu repositório no GitHub)
+   // 1. Define o caminho base (o nome do repositório no GitHub)
   base: "/psg-si-2025-2-p7-tisige-4048101-tisigegrupo1/",
   
   // 2. Define a pasta de saída do build como "docs"
