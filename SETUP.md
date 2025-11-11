@@ -50,8 +50,8 @@ Crie manualmente um arquivo **.env** na raiz do projeto.
 Copie o conteúdo abaixo para o seu .env:
 
 ```bash
-VITE_SUPABASE_URL="[https://kaawfenarygpipzedaao.supabase.co](https://kaawfenarygpipzedaao.supabase.co)"
-VITE_SUPABASE_PUBLISHABLE_KEY="eyJhbGciOiJI..." # (Pegue a chave no arquivo .bat)
+VITE_SUPABASE_URL=
+VITE_SUPABASE_PUBLISHABLE_KEY=
 ```
 Verifique se o `tailwind.config.js` existe. Se não, rode ```npx tailwindcss init -p```.
 Em seguida, execute ```npm run dev```.
