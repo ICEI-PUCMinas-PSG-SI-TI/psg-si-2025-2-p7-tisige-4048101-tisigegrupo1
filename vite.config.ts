@@ -5,6 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  base:"/psg-si-2025-2-p7-tisige-4048101-tisigegrupo1/",
   server: {
     host: "::",
     port: 8080,
