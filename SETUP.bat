@@ -61,8 +61,8 @@ echo   Criando arquivo .env com as chaves publicas do Supabase...
     
 :: [ALTERACAO REVERTIDA] Inserindo as chaves diretamente conforme solicitado
 :: Usa os valores do seu .env (kaawfenarygpipzedaao)
-(echo VITE_SUPABASE_URL="https://kaawfenarygpipzedaao.supabase.co") > .env
-(echo VITE_SUPABASE_PUBLISHABLE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthYXdmZW5hcnlncGlwemVkYWFvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzODU5NzEsImV4cCI6MjA3NTk2MTk3MX0.pSiIFKa8-hUetxN8yFtTXQFqfz5zQsWWkxB0MGTctaU") >> .env
+(echo VITE_SUPABASE_URL="https://woigbpsnnasribdktgdv.supabase.co") > .env
+(echo VITE_SUPABASE_PUBLISHABLE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndvaWdicHNubmFzcmliZGt0Z2R2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4OTQyNDYsImV4cCI6MjA3ODQ3MDI0Nn0.iU3NOEELM0IwCeJAXS9JNDY_LFj3XUHeipiyaAhtBwA") >> .env
 
 echo   Arquivo .env criado com sucesso.
 GOTO :CHECK_TAILWIND_CONFIG
