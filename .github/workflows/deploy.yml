@@ -63,7 +63,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # Pasta que o 'npm run build' criou
-          path: "./docs"
+          path: "./dist"
 
   # Job de "Deploy" (Publicação)
   deploy:
