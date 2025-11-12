@@ -2,15 +2,10 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
- 
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-   // 1. Define o caminho base (o nome do repositório no GitHub)
-  base: "/psg-si-2025-2-p7-tisige-4048101-tisigegrupo1/",
-  // 2. Define a pasta de saída do build como "docs"
-  build: {
-    outDir: "docs",
-  },
+  base: mode === "production" ? "/psg-si-2025-2-p7-tisige-4048101-tisigegrupo1/" : "/",
   server: {
     host: "::",
     port: 8080,
@@ -20,5 +15,8 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  build: {
+    outDir: "docs",
   },
 }));

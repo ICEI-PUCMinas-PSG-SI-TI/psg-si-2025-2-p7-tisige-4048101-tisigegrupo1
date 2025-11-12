@@ -1,18 +1,20 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode } from 'react';
 import { Table, Customer, OrderItem } from '@/types';
 import { useToast } from '@/hooks/use-toast';
-
-export interface Product {
-  id: string;
-  name: string;
-  price: number;
-}
-
-export interface RegisteredCustomer {
-  id: string;
-  name: string;
-  phone: string;
-}
+import {
+  useTables,
+  useCreateTable,
+  useAddCustomer,
+  useAddOrder,
+  useToggleOrderServed,
+  useCloseTable,
+} from '@/hooks/useSupabaseTables';
+import { useProducts, useAddProduct, Product } from '@/hooks/useSupabaseProducts';
+import {
+  useRegisteredCustomers,
+  useAddRegisteredCustomer,
+  RegisteredCustomer,
+} from '@/hooks/useSupabaseCustomers';
 
 interface TablesContextType {
   tables: Table[];
@@ -44,18 +46,23 @@ interface TablesProviderProps {
 }
 
 export const TablesProvider: React.FC<TablesProviderProps> = ({ children }) => {
-  const [tables, setTables] = useState<Table[]>([]);
-  const [products, setProducts] = useState<Product[]>([
-    { id: '1', name: 'Camafeu de Camarão', price: 15.90 },
-    { id: '2', name: 'Fritas c/ Catupiry', price: 12.90 },
-    { id: '3', name: 'Maçã de Peito e Batata', price: 18.90 },
-    { id: '4', name: 'Chopp', price: 8.90 },
-    { id: '5', name: 'Xeque Mate', price: 10.90 },
-  ]);
-  const [registeredCustomers, setRegisteredCustomers] = useState<RegisteredCustomer[]>([]);
   const { toast } = useToast();
 
-  const createTable = (number: number) => {
+  // Fetch data
+  const { data: tables = [] } = useTables();
+  const { data: products = [] } = useProducts();
+  const { data: registeredCustomers = [] } = useRegisteredCustomers();
+
+  // Mutations
+  const createTableMutation = useCreateTable();
+  const addCustomerMutation = useAddCustomer();
+  const addOrderMutation = useAddOrder();
+  const toggleOrderMutation = useToggleOrderServed();
+  const closeTableMutation = useCloseTable();
+  const addProductMutation = useAddProduct();
+  const addRegisteredCustomerMutation = useAddRegisteredCustomer();
+
+  const createTable = async (number: number) => {
     const existingTable = tables.find(table => table.number === number && table.isOpen);
     if (existingTable) {
       toast({
@@ -66,99 +73,90 @@ export const TablesProvider: React.FC<TablesProviderProps> = ({ children }) => {
       return;
     }
 
-    const newTable: Table = {
-      id: Date.now().toString(),
-      number,
-      customers: [],
-      orders: [],
-      isOpen: true,
-      openedAt: new Date(),
-    };
-
-    setTables(prev => [...prev, newTable]);
-    toast({
-      title: "Mesa criada",
-      description: `Mesa ${number} aberta com sucesso!`,
-    });
+    try {
+      await createTableMutation.mutateAsync(number);
+      toast({
+        title: "Mesa criada",
+        description: `Mesa ${number} aberta com sucesso!`,
+      });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Não foi possível criar a mesa.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const addCustomerToTable = (tableId: string, customerData: Omit<Customer, 'id'>) => {
-    setTables(prev => prev.map(table => {
-      if (table.id === tableId) {
-        const newCustomer: Customer = {
-          ...customerData,
-          id: Date.now().toString(),
-        };
-        return {
-          ...table,
-          customers: [...table.customers, newCustomer],
-        };
-      }
-      return table;
-    }));
-
-    toast({
-      title: "Cliente adicionado",
-      description: `${customerData.name} foi adicionado à mesa.`,
-    });
+  const addCustomerToTable = async (tableId: string, customerData: Omit<Customer, 'id'>) => {
+    try {
+      await addCustomerMutation.mutateAsync({ tableId, customer: customerData });
+      toast({
+        title: "Cliente adicionado",
+        description: `${customerData.name} foi adicionado à mesa.`,
+      });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Não foi possível adicionar o cliente.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const addOrderToTable = (tableId: string, orderData: Omit<OrderItem, 'id' | 'served'>) => {
-    setTables(prev => prev.map(table => {
-      if (table.id === tableId) {
-        const newOrder: OrderItem = {
-          ...orderData,
-          id: Date.now().toString(),
-          served: false,
-        };
-        return {
-          ...table,
-          orders: [...table.orders, newOrder],
-        };
-      }
-      return table;
-    }));
+  const addOrderToTable = async (tableId: string, orderData: Omit<OrderItem, 'id' | 'served'>) => {
+    try {
+      await addOrderMutation.mutateAsync({ tableId, order: orderData });
+      
+      const customerDescription = orderData.isForAll ? 
+        'todos os clientes' : 
+        `cliente(s) selecionado(s)`;
 
-    const customerDescription = orderData.isForAll ? 
-      'todos os clientes' : 
-      `cliente(s) selecionado(s)`;
-
-    toast({
-      title: "Pedido adicionado",
-      description: `${orderData.product} adicionado para ${customerDescription}.`,
-    });
+      toast({
+        title: "Pedido adicionado",
+        description: `${orderData.product} adicionado para ${customerDescription}.`,
+      });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Não foi possível adicionar o pedido.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const toggleOrderServed = (tableId: string, orderId: string) => {
-    setTables(prev => prev.map(table => {
-      if (table.id === tableId) {
-        return {
-          ...table,
-          orders: table.orders.map(order =>
-            order.id === orderId ? { ...order, served: !order.served } : order
-          ),
-        };
-      }
-      return table;
-    }));
+  const toggleOrderServed = async (tableId: string, orderId: string) => {
+    const table = tables.find(t => t.id === tableId);
+    if (!table) return;
+
+    const order = table.orders.find(o => o.id === orderId);
+    if (!order) return;
+
+    try {
+      await toggleOrderMutation.mutateAsync({ orderId, served: order.served });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Não foi possível atualizar o pedido.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const closeTable = (tableId: string) => {
-    setTables(prev => prev.map(table => {
-      if (table.id === tableId) {
-        return {
-          ...table,
-          isOpen: false,
-          closedAt: new Date(),
-        };
-      }
-      return table;
-    }));
-
-    toast({
-      title: "Mesa fechada",
-      description: "Conta fechada com sucesso!",
-    });
+  const closeTable = async (tableId: string) => {
+    try {
+      await closeTableMutation.mutateAsync(tableId);
+      toast({
+        title: "Mesa fechada",
+        description: "Conta fechada com sucesso!",
+      });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Não foi possível fechar a mesa.",
+        variant: "destructive",
+      });
+    }
   };
 
   const getTableTotal = (tableId: string) => {
@@ -174,28 +172,36 @@ export const TablesProvider: React.FC<TablesProviderProps> = ({ children }) => {
     return tables.find(table => table.id === tableId);
   };
 
-  const addProduct = (productData: Omit<Product, 'id'>) => {
-    const newProduct: Product = {
-      ...productData,
-      id: Date.now().toString(),
-    };
-    setProducts(prev => [...prev, newProduct]);
-    toast({
-      title: "Produto cadastrado",
-      description: `${productData.name} foi cadastrado com sucesso!`,
-    });
+  const addProduct = async (productData: Omit<Product, 'id'>) => {
+    try {
+      await addProductMutation.mutateAsync(productData);
+      toast({
+        title: "Produto cadastrado",
+        description: `${productData.name} foi cadastrado com sucesso!`,
+      });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Não foi possível cadastrar o produto.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const addRegisteredCustomer = (customerData: Omit<RegisteredCustomer, 'id'>) => {
-    const newCustomer: RegisteredCustomer = {
-      ...customerData,
-      id: Date.now().toString(),
-    };
-    setRegisteredCustomers(prev => [...prev, newCustomer]);
-    toast({
-      title: "Cliente cadastrado",
-      description: `${customerData.name} foi cadastrado com sucesso!`,
-    });
+  const addRegisteredCustomer = async (customerData: Omit<RegisteredCustomer, 'id'>) => {
+    try {
+      await addRegisteredCustomerMutation.mutateAsync(customerData);
+      toast({
+        title: "Cliente cadastrado",
+        description: `${customerData.name} foi cadastrado com sucesso!`,
+      });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Não foi possível cadastrar o cliente.",
+        variant: "destructive",
+      });
+    }
   };
 
   const value: TablesContextType = {
@@ -219,3 +225,5 @@ export const TablesProvider: React.FC<TablesProviderProps> = ({ children }) => {
     </TablesContext.Provider>
   );
 };
+
+export type { Product, RegisteredCustomer };

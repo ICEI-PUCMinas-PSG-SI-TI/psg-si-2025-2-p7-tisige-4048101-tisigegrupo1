@@ -14,7 +14,151 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      customers: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+          phone: string
+          table_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+          phone: string
+          table_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+          phone?: string
+          table_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customers_table_id_fkey"
+            columns: ["table_id"]
+            isOneToOne: false
+            referencedRelation: "tables"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          created_at: string | null
+          customer_ids: string[] | null
+          id: string
+          is_for_all: boolean
+          product: string
+          quantity: number
+          served: boolean
+          table_id: string
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string | null
+          customer_ids?: string[] | null
+          id?: string
+          is_for_all?: boolean
+          product: string
+          quantity: number
+          served?: boolean
+          table_id: string
+          unit_price: number
+        }
+        Update: {
+          created_at?: string | null
+          customer_ids?: string[] | null
+          id?: string
+          is_for_all?: boolean
+          product?: string
+          quantity?: number
+          served?: boolean
+          table_id?: string
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_table_id_fkey"
+            columns: ["table_id"]
+            isOneToOne: false
+            referencedRelation: "tables"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+          price: number
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+          price: number
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+          price?: number
+        }
+        Relationships: []
+      }
+      registered_customers: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+          phone: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+          phone: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+          phone?: string
+        }
+        Relationships: []
+      }
+      tables: {
+        Row: {
+          closed_at: string | null
+          created_at: string | null
+          id: string
+          is_open: boolean
+          number: number
+          opened_at: string | null
+        }
+        Insert: {
+          closed_at?: string | null
+          created_at?: string | null
+          id?: string
+          is_open?: boolean
+          number: number
+          opened_at?: string | null
+        }
+        Update: {
+          closed_at?: string | null
+          created_at?: string | null
+          id?: string
+          is_open?: boolean
+          number?: number
+          opened_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
