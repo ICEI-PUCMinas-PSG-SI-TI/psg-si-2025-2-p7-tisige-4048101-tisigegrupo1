@@ -1,6 +1,6 @@
 # Documentação do Sistema de Gerenciamento de Restaurante
 
-## 📋 Índice
+## 📋 Índice 
 
 1. [Visão Geral](#visão-geral)
 2. [Arquitetura do Sistema](#arquitetura-do-sistema)
