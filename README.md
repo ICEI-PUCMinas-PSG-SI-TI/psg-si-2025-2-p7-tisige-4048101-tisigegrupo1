@@ -17,7 +17,7 @@
 
 ## 🎯 Visão Geral
 
-Sistema completo de gerenciamento de restaurante desenvolvido com React, TypeScript e Supabase (via Lovable Cloud). O sistema implementa controle de acesso baseado em papéis (RBAC), permitindo gerenciamento de pedidos, cardápio, mesas e unidades em múltiplas localizações.
+Sistema completo de gerenciamento de restaurante desenvolvido com React, TypeScript e Supabase. O sistema implementa controle de acesso baseado em papéis (RBAC), permitindo gerenciamento de pedidos, cardápio, mesas e unidades em múltiplas localizações.
 
 ### Objetivos Principais
 
@@ -92,7 +92,7 @@ Sistema completo de gerenciamento de restaurante desenvolvido com React, TypeScr
 | Lucide React | 0.462.0 | Icons |
 | Sonner | 1.7.4 | Toast notifications |
 
-### Backend (Lovable Cloud/Supabase)
+### Backend (Cloud/Supabase)
 
 | Tecnologia | Propósito |
 |-----------|-----------|
@@ -1192,4 +1192,4 @@ Para questões técnicas ou dúvidas sobre o sistema:
 
 **Última atualização:** 2025-11-05  
 **Versão do Sistema:** 1.0.0  
-**Desenvolvido com:** React + TypeScript + Supabase (Lovable Cloud)
+**Desenvolvido com:** React + TypeScript + Supabase (Cloud)
