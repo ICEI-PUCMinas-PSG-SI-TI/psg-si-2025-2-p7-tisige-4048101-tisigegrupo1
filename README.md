@@ -43,7 +43,7 @@ Sistema completo de gerenciamento de restaurante desenvolvido com React, TypeScr
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
-│              Supabase (Lovable Cloud Backend)               │
+│              Supabase (Cloud Backend)               │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
 │  │ Authentication│  │   Database   │  │     Edge     │      │
 │  │   + Auth      │  │   + RLS      │  │  Functions   │      │
