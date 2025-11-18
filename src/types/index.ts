@@ -4,12 +4,14 @@ export interface Customer {
   phone: string;
 }
 
+export type OrderStatus = 'pending' | 'preparing' | 'ready' | 'completed' | 'cancelled';
+
 export interface OrderItem {
   id: string;
   product: string;
   quantity: number;
   unitPrice: number;
-  served: boolean;
+  status: OrderStatus;
   customerIds: string[]; // Array of customer IDs or empty array for "todos"
   isForAll: boolean; // true when the order is for all customers
 }

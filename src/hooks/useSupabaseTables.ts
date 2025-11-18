@@ -23,7 +23,7 @@ export interface DbOrder {
   product: string;
   quantity: number;
   unit_price: number;
-  served: boolean;
+  status: string;
   is_for_all: boolean;
   customer_ids: string[];
 }
@@ -72,7 +72,7 @@ export const useTables = () => {
             product: o.product,
             quantity: o.quantity,
             unitPrice: o.unit_price,
-            served: o.served,
+            status: o.status as 'pending' | 'preparing' | 'ready' | 'completed' | 'cancelled',
             isForAll: o.is_for_all,
             customerIds: o.customer_ids || [],
           })),
@@ -134,7 +134,7 @@ export const useAddOrder = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ tableId, order }: { tableId: string; order: Omit<OrderItem, 'id' | 'served'> }) => {
+    mutationFn: async ({ tableId, order }: { tableId: string; order: Omit<OrderItem, 'id' | 'status'> }) => {
       const { data, error } = await supabase
         .from('orders')
         .insert({
@@ -144,6 +144,7 @@ export const useAddOrder = () => {
           unit_price: order.unitPrice,
           is_for_all: order.isForAll,
           customer_ids: order.customerIds,
+          status: 'pending',
         })
         .select()
         .single();
@@ -157,15 +158,37 @@ export const useAddOrder = () => {
   });
 };
 
-// Toggle order served status
-export const useToggleOrderServed = () => {
+// Update order status
+export const useUpdateOrderStatus = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ orderId, served }: { orderId: string; served: boolean }) => {
+    mutationFn: async ({ orderId, status }: { orderId: string; status: string }) => {
       const { data, error } = await supabase
         .from('orders')
-        .update({ served: !served })
+        .update({ status })
+        .eq('id', orderId)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tables'] });
+    },
+  });
+};
+
+// Cancel order
+export const useCancelOrder = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (orderId: string) => {
+      const { data, error } = await supabase
+        .from('orders')
+        .update({ status: 'cancelled' })
         .eq('id', orderId)
         .select()
         .single();

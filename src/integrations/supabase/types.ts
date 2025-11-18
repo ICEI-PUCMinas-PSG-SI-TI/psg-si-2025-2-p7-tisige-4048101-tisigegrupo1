@@ -54,7 +54,7 @@ export type Database = {
           is_for_all: boolean
           product: string
           quantity: number
-          served: boolean
+          status: string
           table_id: string
           unit_price: number
         }
@@ -65,7 +65,7 @@ export type Database = {
           is_for_all?: boolean
           product: string
           quantity: number
-          served?: boolean
+          status?: string
           table_id: string
           unit_price: number
         }
@@ -76,7 +76,7 @@ export type Database = {
           is_for_all?: boolean
           product?: string
           quantity?: number
-          served?: boolean
+          status?: string
           table_id?: string
           unit_price?: number
         }

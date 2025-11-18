@@ -1,12 +1,13 @@
 import React, { createContext, useContext, ReactNode } from 'react';
-import { Table, Customer, OrderItem } from '@/types';
+import { Table, Customer, OrderItem, OrderStatus } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import {
   useTables,
   useCreateTable,
   useAddCustomer,
   useAddOrder,
-  useToggleOrderServed,
+  useUpdateOrderStatus,
+  useCancelOrder,
   useCloseTable,
 } from '@/hooks/useSupabaseTables';
 import { useProducts, useAddProduct, Product } from '@/hooks/useSupabaseProducts';
@@ -22,8 +23,9 @@ interface TablesContextType {
   registeredCustomers: RegisteredCustomer[];
   createTable: (number: number) => void;
   addCustomerToTable: (tableId: string, customer: Omit<Customer, 'id'>) => void;
-  addOrderToTable: (tableId: string, order: Omit<OrderItem, 'id' | 'served'>) => void;
-  toggleOrderServed: (tableId: string, orderId: string) => void;
+  addOrderToTable: (tableId: string, order: Omit<OrderItem, 'id' | 'status'>) => void;
+  updateOrderStatus: (orderId: string, status: OrderStatus) => void;
+  cancelOrder: (orderId: string) => void;
   closeTable: (tableId: string) => void;
   getTableTotal: (tableId: string) => number;
   getTableById: (tableId: string) => Table | undefined;
@@ -57,7 +59,8 @@ export const TablesProvider: React.FC<TablesProviderProps> = ({ children }) => {
   const createTableMutation = useCreateTable();
   const addCustomerMutation = useAddCustomer();
   const addOrderMutation = useAddOrder();
-  const toggleOrderMutation = useToggleOrderServed();
+  const updateOrderStatusMutation = useUpdateOrderStatus();
+  const cancelOrderMutation = useCancelOrder();
   const closeTableMutation = useCloseTable();
   const addProductMutation = useAddProduct();
   const addRegisteredCustomerMutation = useAddRegisteredCustomer();
@@ -104,7 +107,7 @@ export const TablesProvider: React.FC<TablesProviderProps> = ({ children }) => {
     }
   };
 
-  const addOrderToTable = async (tableId: string, orderData: Omit<OrderItem, 'id' | 'served'>) => {
+  const addOrderToTable = async (tableId: string, orderData: Omit<OrderItem, 'id' | 'status'>) => {
     try {
       await addOrderMutation.mutateAsync({ tableId, order: orderData });
       
@@ -125,19 +128,33 @@ export const TablesProvider: React.FC<TablesProviderProps> = ({ children }) => {
     }
   };
 
-  const toggleOrderServed = async (tableId: string, orderId: string) => {
-    const table = tables.find(t => t.id === tableId);
-    if (!table) return;
-
-    const order = table.orders.find(o => o.id === orderId);
-    if (!order) return;
-
+  const updateOrderStatus = async (orderId: string, status: OrderStatus) => {
     try {
-      await toggleOrderMutation.mutateAsync({ orderId, served: order.served });
+      await updateOrderStatusMutation.mutateAsync({ orderId, status });
+      toast({
+        title: "Status atualizado",
+        description: "Status do pedido foi atualizado com sucesso!",
+      });
     } catch (error) {
       toast({
         title: "Erro",
-        description: "Não foi possível atualizar o pedido.",
+        description: "Não foi possível atualizar o status.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const cancelOrder = async (orderId: string) => {
+    try {
+      await cancelOrderMutation.mutateAsync(orderId);
+      toast({
+        title: "Pedido cancelado",
+        description: "O pedido foi cancelado com sucesso.",
+      });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Não foi possível cancelar o pedido.",
         variant: "destructive",
       });
     }
@@ -163,9 +180,11 @@ export const TablesProvider: React.FC<TablesProviderProps> = ({ children }) => {
     const table = tables.find(t => t.id === tableId);
     if (!table) return 0;
     
-    return table.orders.reduce((total, order) => {
-      return total + (order.quantity * order.unitPrice);
-    }, 0);
+    return table.orders
+      .filter(order => order.status !== 'cancelled')
+      .reduce((total, order) => {
+        return total + (order.quantity * order.unitPrice);
+      }, 0);
   };
 
   const getTableById = (tableId: string) => {
@@ -211,7 +230,8 @@ export const TablesProvider: React.FC<TablesProviderProps> = ({ children }) => {
     createTable,
     addCustomerToTable,
     addOrderToTable,
-    toggleOrderServed,
+    updateOrderStatus,
+    cancelOrder,
     closeTable,
     getTableTotal,
     getTableById,

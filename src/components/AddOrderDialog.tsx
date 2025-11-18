@@ -83,15 +83,15 @@ export const AddOrderDialog: React.FC<AddOrderDialogProps> = ({ tableId, custome
           Adicionar
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-card border-border max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="bg-card border-border w-[calc(100vw-2rem)] max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-foreground">Adicionar Pedido</DialogTitle>
+          <DialogTitle className="text-base sm:text-lg text-foreground">Adicionar Pedido</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           {/* Produtos do Menu */}
           <div>
-            <Label className="text-foreground">Produtos do Menu</Label>
-            <div className="grid grid-cols-1 gap-2 mt-2">
+            <Label className="text-sm sm:text-base text-foreground">Produtos do Menu</Label>
+            <div className="grid grid-cols-1 gap-2 mt-2 max-h-[200px] sm:max-h-[300px] overflow-y-auto">
               {products.map((product) => (
                 <Card 
                   key={product.name} 
@@ -100,7 +100,7 @@ export const AddOrderDialog: React.FC<AddOrderDialogProps> = ({ tableId, custome
                   }`}
                   onClick={() => handleProductSelect(product.name)}
                 >
-                  <CardContent className="p-3">
+                  <CardContent className="p-2 sm:p-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Utensils className="h-4 w-4 text-primary" />

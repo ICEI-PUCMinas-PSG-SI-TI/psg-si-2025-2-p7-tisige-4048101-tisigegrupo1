@@ -40,24 +40,24 @@ export const AddCustomerDialog: React.FC<AddCustomerDialogProps> = ({ tableId })
           Adicionar
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-card border-border max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="bg-card border-border w-[calc(100vw-2rem)] max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-foreground">Adicionar Cliente</DialogTitle>
+          <DialogTitle className="text-base sm:text-lg text-foreground">Adicionar Cliente</DialogTitle>
         </DialogHeader>
         
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Clientes Cadastrados */}
           {registeredCustomers.length > 0 && (
             <div>
-              <Label className="text-foreground font-semibold">Selecionar Cliente Cadastrado</Label>
-              <div className="grid grid-cols-1 gap-2 mt-2 max-h-[200px] overflow-y-auto">
+              <Label className="text-sm sm:text-base text-foreground font-semibold">Selecionar Cliente Cadastrado</Label>
+              <div className="grid grid-cols-1 gap-2 mt-2 max-h-[150px] sm:max-h-[200px] overflow-y-auto">
                 {registeredCustomers.map((customer) => (
                   <Card 
                     key={customer.id} 
                     className="cursor-pointer transition-colors bg-card border-border hover:bg-primary/10 hover:border-primary"
                     onClick={() => handleSelectRegisteredCustomer(customer)}
                   >
-                    <CardContent className="p-3">
+                    <CardContent className="p-2 sm:p-3">
                       <div className="flex items-center gap-2">
                         <UserPlus className="h-4 w-4 text-primary" />
                         <div>
@@ -87,8 +87,8 @@ export const AddCustomerDialog: React.FC<AddCustomerDialogProps> = ({ tableId })
           )}
 
           {/* Formulário para Novo Cliente */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Label className="text-foreground font-semibold">Adicionar Novo Cliente</Label>
+          <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+            <Label className="text-sm sm:text-base text-foreground font-semibold">Adicionar Novo Cliente</Label>
             <div>
               <Label htmlFor="customerName" className="text-foreground">Nome *</Label>
               <Input
